@@ -501,4 +501,23 @@ function updateCartBadge() {
 }
 updateCartBadge();
 
+/*
+   10. STICKY NAVBAR SCROLL ELEVATION
+  */
+const headerNav = document.querySelector("#header-section");
+
+if (headerNav) {
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 40) {
+      headerNav.style.padding = "8px 20px";
+      headerNav.style.background = "rgba(255, 255, 255, 0.75)";
+      headerNav.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.12)";
+    } else {
+      headerNav.style.padding = "12px 28px";
+      headerNav.style.background = "var(--glass-bg)";
+      headerNav.style.boxShadow = "var(--glass-shadow)";
+    }
+  });
+}
+
 });
