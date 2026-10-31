@@ -442,4 +442,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  /*
+     8. DYNAMIC REVIEW FILTERING BY STEM COUNT
+  */
+  const filterPills = document.querySelectorAll(".filter-pill");
+  const reviewArticles = document.querySelectorAll("section.grid-2 .review-card, section.grid-2 article");
+
+  filterPills.forEach(pill => {
+    pill.addEventListener("click", (e) => {
+      e.preventDefault();
+      
+      filterPills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+
+      const filterValue = pill.getAttribute("data-filter") || "all";
+
+      reviewArticles.forEach(article => {
+        const articleText = article.textContent.toLowerCase();
+
+        if (filterValue === "all") {
+          article.style.display = "block";
+        } else {
+
+          const searchTerm = filterValue.replace("-", " ").replace("s", ""); 
+          const alternativeTerm = filterValue.replace("-", ""); 
+
+          if (articleText.includes(searchTerm) || articleText.includes(alternativeTerm)) {
+            article.style.display = "block";
+          } else {
+            article.style.display = "none";
+          }
+        }
+      });
+    });
+  });
+
 });
