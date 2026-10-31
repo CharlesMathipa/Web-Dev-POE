@@ -46,9 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     productForm.addEventListener("submit", (e) => {
       e.preventDefault(); 
 
-
       const activeUser = JSON.parse(localStorage.getItem("afb_active_user"));
-
       if (!activeUser) {
         alert("Account Required: Please log in or create an account before adding items to your cart.");
         window.location.href = "login.html";
@@ -67,7 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
         hasVase: vaseCheckbox ? vaseCheckbox.checked : false
       };
 
-      localStorage.setItem("afb_cart_item", JSON.stringify(cartItem));
+      let cartItems = JSON.parse(localStorage.getItem("afb_cart_items") || "[]");
+      cartItems.push(cartItem);
+      localStorage.setItem("afb_cart_items", JSON.stringify(cartItems));
       
       window.location.href = "cart.html";
     });
@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cartForm.addEventListener("submit", (e) => {
-      e.preventDefault(); // Stop default form POST behavior so we can handle routing via JS
+      e.preventDefault(); 
 
       const recipientName = cartForm.querySelector("#recip-name")?.value || "";
       const recipientPhone = cartForm.querySelector("#recip-phone")?.value || "";
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const isAnonymous = cartForm.querySelector("input[name='anonymous_sender']")?.checked || false;
       const buyerEmail = cartForm.querySelector("#buyer-email")?.value || "";
 
-      // SA Mobile Phone validation
+
       const saPhoneRegex = /^(\+27|0)[6-8][0-9]{8}$/;
       if (!saPhoneRegex.test(recipientPhone)) {
         alert("Please enter a valid South African mobile number (e.g. 0610667057).");
@@ -148,7 +148,6 @@ document.addEventListener("DOMContentLoaded", () => {
         buyerEmail
       };
 
-      // Save to localStorage and redirect explicitly to checkout
       localStorage.setItem("afb_delivery_details", JSON.stringify(deliveryDetails));
       window.location.href = "checkout.html";
     });
@@ -410,7 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (reviewContainer) {
         const newCard = document.createElement("article");
         newCard.className = "review-card";
-        newCard.setAttribute("data-category", stemCategory); // Explicit category attribute for sorting
+        newCard.setAttribute("data-category", stemCategory); 
 
         newCard.innerHTML = `
           <div class="review-card-content">
@@ -487,19 +486,59 @@ document.addEventListener("DOMContentLoaded", () => {
    9. DYNAMIC CART BADGE COUNTER
   */
 function updateCartBadge() {
-  const cartItem = JSON.parse(localStorage.getItem("afb_cart_item"));
-  const cartBadge = document.querySelector("#cart-badge");
+    const cartItems = JSON.parse(localStorage.getItem("afb_cart_items") || "[]");
+    const singleItem = JSON.parse(localStorage.getItem("afb_cart_item"));
+    
+    let totalCount = cartItems.length;
+    if (totalCount === 0 && singleItem) totalCount = 1;
 
-  if (cartBadge) {
-    if (cartItem) {
-      cartBadge.textContent = "1";
-      cartBadge.style.display = "inline-flex";
-    } else {
-      cartBadge.style.display = "none";
+    const cartBadge = document.querySelector("#cart-badge");
+    if (cartBadge) {
+      if (totalCount > 0) {
+        cartBadge.textContent = totalCount;
+        cartBadge.style.display = "inline-flex";
+      } else {
+        cartBadge.style.display = "none";
+      }
     }
   }
-}
-updateCartBadge();
+  updateCartBadge();
+
+  const cartItemsContainer = document.querySelector("#cart-items-container");
+  if (cartItemsContainer) {
+    let cartItems = JSON.parse(localStorage.getItem("afb_cart_items") || "[]");
+    const legacyItem = JSON.parse(localStorage.getItem("afb_cart_item"));
+    
+    if (cartItems.length === 0 && legacyItem) {
+      cartItems = [legacyItem];
+    }
+
+    if (cartItems.length === 0) {
+      cartItemsContainer.innerHTML = `<p style="color: var(--brand-muted);">Your cart is currently empty. <a href="menu.html">Browse our menu</a> to add flowers.</p>`;
+    } else {
+      let html = "";
+      let totalSum = 0;
+
+      cartItems.forEach((item, index) => {
+        totalSum += item.amount;
+        html += `
+          <div style="background: rgba(255,255,255,0.5); padding: 14px 18px; border-radius: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--glass-border);">
+            <div>
+              <p><strong>${item.title}</strong> (${item.stems} Stems)</p>
+              <p style="font-size: 0.9rem; color: var(--brand-muted);">Delivery Date: ${item.deliveryDate} ${item.hasGyp ? '| +Gypsophila' : ''} ${item.hasVase ? '| +Vase' : ''}</p>
+            </div>
+            <div style="text-align: right;">
+              <p style="font-weight: 700; color: #9E1B22;">R ${item.amount.toFixed(2)}</p>
+              <button type="button" onclick="removeItem(${index})" style="background: transparent; color: #9E1B22; border: none; font-size: 12px; cursor: pointer; padding: 2px 0;">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `<div style="text-align: right; margin-top: 15px;"><h3>Cart Total: R ${totalSum.toFixed(2)}</h3></div>`;
+      cartItemsContainer.innerHTML = html;
+    }
+  }
 
 /*
    10. STICKY NAVBAR SCROLL ELEVATION
@@ -521,3 +560,11 @@ if (headerNav) {
 }
 
 });
+
+function removeItem(index) {
+  let cartItems = JSON.parse(localStorage.getItem("afb_cart_items") || "[]");
+  cartItems.splice(index, 1);
+  localStorage.setItem("afb_cart_items", JSON.stringify(cartItems));
+  localStorage.removeItem("afb_cart_item");
+  location.reload();
+}

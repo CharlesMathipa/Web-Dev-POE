@@ -1,4 +1,3 @@
-<!---Express Cart & Recipient Details --->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,15 +20,25 @@
       <li><a href="contact.html">Contact</a></li>
       <li><a href="login.html"><i class="bi bi-person"></i></a></li>
       <li>
-  <a href="cart.html" id="cart-nav-link" class="active">
-    <i class="bi bi-bag"></i>
-    <span id="cart-badge" style="display: none;">0</span>
-  </a>
-</li>
+        <a href="cart.html" id="cart-nav-link" class="active">
+          <i class="bi bi-bag"></i>
+          <span id="cart-badge" style="display: none;">0</span>
+        </a>
+      </li>
     </ul>
   </section>
 
   <main>
+    <h1>Your Shopping Cart & Delivery</h1>
+    
+    <!-- Dynamic Cart Items Review Container -->
+    <section class="glass-card" style="margin-bottom: 24px;">
+      <h2>Review Selected Items</h2>
+      <div id="cart-items-container" style="margin-top: 15px;">
+        <!-- Injected dynamically by script.js -->
+      </div>
+    </section>
+
     <form action="checkout.html" method="POST">
       <section>
         <h2>Step 1: Recipient Details</h2>
@@ -58,7 +67,7 @@
         <label for="buyer-email">Your Email Address (For Order Tracking):</label>
         <input type="email" id="buyer-email" name="buyer_email" required><br><br>
 
-        <a href="checkout.html" style="width: 100%;" class="button">Proceed to Secure Payment</a>
+        <button type="submit" style="width: 100%;">Proceed to Secure Payment</button>
       </section>
     </form>
   </main>
