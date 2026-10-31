@@ -493,7 +493,7 @@ function updateCartBadge() {
   if (cartBadge) {
     if (cartItem) {
       cartBadge.textContent = "1";
-      cartBadge.style.display = "inline-block";
+      cartBadge.style.display = "inline-flex";
     } else {
       cartBadge.style.display = "none";
     }
