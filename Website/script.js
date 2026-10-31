@@ -388,11 +388,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const nameInput = document.querySelector("#reviewer-name");
       const ratingSelect = document.querySelector("#rating");
+      const stemCategorySelect = document.querySelector("#review-stem-category");
       const fileInput = document.querySelector("#photo-upload");
       const textInput = document.querySelector("#review-text");
 
       const name = nameInput.value.trim();
       const ratingNum = parseInt(ratingSelect.value);
+      const stemCategory = stemCategorySelect ? stemCategorySelect.value : "40-stems";
       const reviewText = textInput.value.trim();
       const stars = "★".repeat(ratingNum) + "☆".repeat(5 - ratingNum);
 
@@ -401,10 +403,14 @@ document.addEventListener("DOMContentLoaded", () => {
         imageUrl = URL.createObjectURL(fileInput.files[0]); 
       }
 
+      // Format clean display text for stems (e.g. "40-stems" -> "40 Stems")
+      const stemDisplayLabel = stemCategory.replace("-", " ").toUpperCase();
+
       const reviewContainer = document.querySelector("section.grid-2");
       if (reviewContainer) {
         const newCard = document.createElement("article");
         newCard.className = "review-card";
+        newCard.setAttribute("data-category", stemCategory); // Explicit category attribute for sorting
 
         newCard.innerHTML = `
           <div class="review-card-content">
@@ -412,15 +418,15 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="review-details">
               <h3><span class="stars">${stars}</span> "${reviewText.substring(0, 30)}..."</h3>
               <p class="review-quote"><em>"${reviewText}"</em></p>
-              <p class="reviewer-info"><strong>- ${name}</strong> (Verified Buyer)</p>
-              <a href="menu.html" class="button review-btn">Order From Menu</a>
+              <p class="reviewer-info"><strong>- ${name}</strong> (Verified Buyer — ${stemDisplayLabel})</p>
+              <a href="menu.html" class="button review-btn">Order This Setup (${stemDisplayLabel})</a>
             </div>
           </div>
         `;
 
         reviewContainer.prepend(newCard);
         reviewForm.reset();
-        alert("Thank you! Your review has been posted successfully.");
+        alert("Thank you! Your review has been posted and tagged successfully.");
       }
     });
   }
@@ -446,7 +452,6 @@ document.addEventListener("DOMContentLoaded", () => {
      8. DYNAMIC REVIEW FILTERING BY STEM COUNT
   */
   const filterPills = document.querySelectorAll(".filter-pill");
-  const reviewArticles = document.querySelectorAll("section.grid-2 .review-card, section.grid-2 article");
 
   filterPills.forEach(pill => {
     pill.addEventListener("click", (e) => {
@@ -456,18 +461,19 @@ document.addEventListener("DOMContentLoaded", () => {
       pill.classList.add("active");
 
       const filterValue = pill.getAttribute("data-filter") || "all";
+      const reviewArticles = document.querySelectorAll("section.grid-2 .review-card, section.grid-2 article");
 
       reviewArticles.forEach(article => {
+        const articleCategory = article.getAttribute("data-category") || "";
         const articleText = article.textContent.toLowerCase();
 
         if (filterValue === "all") {
           article.style.display = "block";
         } else {
-
           const searchTerm = filterValue.replace("-", " ").replace("s", ""); 
           const alternativeTerm = filterValue.replace("-", ""); 
 
-          if (articleText.includes(searchTerm) || articleText.includes(alternativeTerm)) {
+          if (articleCategory === filterValue || articleText.includes(searchTerm) || articleText.includes(alternativeTerm)) {
             article.style.display = "block";
           } else {
             article.style.display = "none";
