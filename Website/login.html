@@ -25,21 +25,14 @@
   <main style="max-width: 550px;">
     <section class="glass-card" style="padding: 32px;">
       
-      <!-- Account Dashboard (Shown when logged in) -->
+      <!-- Account Dashboard  -->
       <div id="user-dashboard" style="display: none; text-align: center;">
         <h2>Welcome Back, <span id="dashboard-user-name">Valued Customer</span>!</h2>
-        <p style="color: var(--brand-muted); margin: 12px 0 20px 0;">Manage your profile and track active orders.</p>
-        
+        <p style="color: var(--brand-muted); margin: 12px 0 24px 0;">You are currently logged into your Always & Forever Blooms account.</p>
         <div style="background: rgba(255,255,255,0.4); padding: 18px; border-radius: 16px; margin-bottom: 20px; text-align: left;">
           <p><strong>Email:</strong> <span id="dashboard-user-email"></span></p>
           <p style="margin-top: 6px;"><strong>Phone:</strong> <span id="dashboard-user-phone"></span></p>
         </div>
-
-        <h3 style="text-align: left; margin-bottom: 12px;">Order Tracking History</h3>
-        <div id="order-history-list" style="margin-bottom: 20px;">
-          <!-- Dynamically populated by script.js -->
-        </div>
-
         <button id="logout-btn" type="button" style="width: 100%;">Sign Out of Account</button>
       </div>
 
