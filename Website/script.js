@@ -483,4 +483,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  /*
+   9. DYNAMIC CART BADGE COUNTER
+  */
+function updateCartBadge() {
+  const cartItem = JSON.parse(localStorage.getItem("afb_cart_item"));
+  const cartBadge = document.querySelector("#cart-badge");
+
+  if (cartBadge) {
+    if (cartItem) {
+      cartBadge.textContent = "1";
+      cartBadge.style.display = "inline-block";
+    } else {
+      cartBadge.style.display = "none";
+    }
+  }
+}
+updateCartBadge();
+
 });
