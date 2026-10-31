@@ -334,4 +334,90 @@ if (logoutBtn) {
   });
 }
 
+/*
+     CHECKOUT PAGE FUNCTIONALITY & PAYMENT ACCORDION
+ */
+  const checkoutSummarySection = document.querySelector("#checkout-summary");
+  const checkoutForm = document.querySelector("#payment-form");
+
+  if (checkoutSummarySection) {
+    //Load Cart & Delivery Data into Summary Box
+    const cartItem = JSON.parse(localStorage.getItem("afb_cart_item")) || {
+      title: "Pink Rose Bouquet (40 Stems)",
+      amount: 850.00,
+      deliveryDate: "2026-02-14"
+    };
+
+    const deliveryDetails = JSON.parse(localStorage.getItem("afb_delivery_details")) || {
+      recipientName: "Valued Customer",
+      recipientAddress: "Gauteng Metro Area"
+    };
+
+    const deliveryFee = 120.00;
+    const totalPayment = cartItem.amount + deliveryFee;
+
+    checkoutSummarySection.innerHTML = `
+      <h2>Final Payment Summary</h2>
+      <br>
+      <div style="background: rgba(255,255,255,0.4); padding: 16px; border-radius: 14px; margin-bottom: 14px;">
+        <p>Item: <strong>${cartItem.title}</strong></p>
+        <p style="margin-top: 4px;">Recipient: <strong>${deliveryDetails.recipientName}</strong> (${deliveryDetails.recipientAddress})</p>
+        <p style="margin-top: 4px;">Target Date: <strong>${cartItem.deliveryDate}</strong></p>
+      </div>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid var(--glass-border);">
+          <td style="padding: 8px 0;">Bouquet Subtotal</td>
+          <td style="text-align: right; font-weight: 600;">R ${cartItem.amount.toFixed(2)}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--glass-border);">
+          <td style="padding: 8px 0;">Standard Same-Day Delivery</td>
+          <td style="text-align: right; font-weight: 600;">R ${deliveryFee.toFixed(2)}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 0; font-size: 1.15rem; font-weight: 700; color: #9E1B22;">Total Due Now</td>
+          <td style="text-align: right; font-size: 1.15rem; font-weight: 700; color: #9E1B22;">R ${totalPayment.toLocaleString('en-ZA', { minimumFractionDigits: 2 })}</td>
+        </tr>
+      </table>
+    `;
+
+    //Toggle Payment Inputs (Capitec Pay vs Card vs Wallet)
+    const paymentRadios = document.querySelectorAll("input[name='payment_method']");
+    const capitecFields = document.querySelector("#capitec-fields");
+    const cardFields = document.querySelector("#card-fields");
+
+    paymentRadios.forEach(radio => {
+      radio.addEventListener("change", (e) => {
+        if (e.target.value === "capitec_pay") {
+          if (capitecFields) capitecFields.style.display = "block";
+          if (cardFields) cardFields.style.display = "none";
+        } else if (e.target.value === "card") {
+          if (cardFields) cardFields.style.display = "block";
+          if (capitecFields) capitecFields.style.display = "none";
+        } else {
+          if (capitecFields) capitecFields.style.display = "none";
+          if (cardFields) cardFields.style.display = "none";
+        }
+      });
+    });
+
+    //Receipt
+    if (checkoutForm) {
+      checkoutForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const orderRef = "AFB-" + Math.floor(100000 + Math.random() * 900000);
+        const receiptData = {
+          orderRef,
+          date: new Date().toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric' }),
+          cartItem,
+          deliveryDetails,
+          deliveryFee,
+          totalPayment
+        };
+
+        localStorage.setItem("afb_last_receipt", JSON.stringify(receiptData));
+        window.location.href = "receipt.html";
+      });
+    }
+  }
 });

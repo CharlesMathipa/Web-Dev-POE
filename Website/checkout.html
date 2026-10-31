@@ -1,87 +1,101 @@
-<!--//Secure Checkout & Payment-->
+<!-- Secure Checkout & Payment -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
-    <title>Always & Forever Blooms - Checkout</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>Always & Forever Blooms - Secure Checkout</title>
 </head>
-
 <body>
 
-  <!-- Minimal Header (Distraction-Free) -->
-  <header>
-    <strong>Always & Forever Blooms</strong>
-    <span>256-Bit SSL Encrypted Checkout</span>
-  </header>
+  <section id="header-section">
+    <a href="Homepage.html"><img src="images/logo.jpeg" alt="Always and Forever Blooms Logo" class="logo"></a>
+    <ul id="navbar">
+      <li><a href="Homepage.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="login.html"><i class="bi bi-person"></i></a></li>
+      <li><a href="cart.html"><i class="bi bi-bag"></i></a></li>
+    </ul>
+  </section>
 
-  <main>
-    <h1>Secure Checkout</h1>
+  <main style="max-width: 800px;">
+    <h1>Secure Online Checkout</h1>
+    <p style="color: var(--brand-muted); margin-bottom: 24px;">
+      <i class="bi bi-shield-lock-fill" style="color: #5E7060;"></i> 256-Bit SSL Encrypted Payment Gateway (PayFast & Capitec Pay Integration)
+    </p>
 
-    <!-- Final Order Review -->
-    <section>
+    <section class="glass-card" id="checkout-summary" style="margin-bottom: 30px;">
       <h2>Final Payment Summary</h2>
-      <p>Recipient: <strong>Sarah Mathipa</strong> (Sandton, Gauteng)</p>
-      <p>Target Date: <strong>14 February 2026</strong></p>
-      <p><strong>Total Amount Due: R 2,220</strong></p>
+      <p style="margin-top: 10px; color: var(--brand-muted);">Loading your order details...</p>
     </section>
 
+    <section class="glass-card">
+      <h2 style="margin-bottom: 20px;">Select Payment Method</h2>
 
-    <!-- Payment Option Selection -->
-    <section>
-      <h2>Select Payment Method</h2>
-
-      <form action="Homepage.html" method="get">
-        <fieldset>
-          <legend>Available Local Gateways:</legend>
-
-          <label>
-            <input type="radio" name="payment_method" value="instant_eft" checked>
-            <strong>Instant EFT (Ozow / Capitec Pay)</strong> — Zero card fees, instant approval
-          </label><br><br>
-
-          <label>
-            <input type="radio" name="payment_method" value="card">
-            <strong>Credit / Debit Card (PayFast / Yoco)</strong> — Visa & Mastercard
-          </label><br><br>
-
-          <label>
-            <input type="radio" name="payment_method" value="snapscan">
-            <strong>SnapScan / Apple Pay</strong> — Fast 1-tap mobile checkout
+      <form id="payment-form">
+        
+        <div style="background: rgba(255,255,255,0.4); padding: 18px; border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--glass-border);">
+          <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 600;">
+            <input type="radio" name="payment_method" value="capitec_pay" checked style="width: auto;">
+            <span>Capitec Pay / Instant EFT (Ozow)</span>
           </label>
-        </fieldset>
+          <p style="font-size: 0.9rem; color: var(--brand-muted); margin: 8px 0 0 28px;">
+            Enter your mobile number below to pay securely through your banking app with zero transaction fees.
+          </p>
+          <div id="capitec-fields" style="margin: 14px 0 0 28px;">
+            <label for="capitec-phone" style="font-size: 0.85rem; display: block; margin-bottom: 6px;">Mobile Phone Number:</label>
+            <input type="tel" id="capitec-phone" name="capitec_phone" placeholder="e.g., 0712345678" style="max-width: 320px;">
+          </div>
+        </div>
 
-        <br>
+        <div style="background: rgba(255,255,255,0.4); padding: 18px; border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--glass-border);">
+          <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 600;">
+            <input type="radio" name="payment_method" value="card" style="width: auto;">
+            <span>Credit or Debit Card (Visa / Mastercard / Yoco)</span>
+          </label>
+          
+          <div id="card-fields" style="display: none; margin: 14px 0 0 28px;">
+            <label for="card-num" style="font-size: 0.85rem; display: block; margin-bottom: 6px;">Card Number:</label>
+            <input type="text" id="card-num" name="card_number" placeholder="4532 •••• •••• ••••" style="margin-bottom: 12px;">
+            
+            <div style="display: flex; gap: 12px;">
+              <div style="flex: 1;">
+                <label for="card-exp" style="font-size: 0.85rem; display: block; margin-bottom: 6px;">Expiry (MM/YY):</label>
+                <input type="text" id="card-exp" name="card_expiry" placeholder="MM/YY">
+              </div>
+              <div style="flex: 1;">
+                <label for="card-cvv" style="font-size: 0.85rem; display: block; margin-bottom: 6px;">CVV:</label>
+                <input type="password" id="card-cvv" name="card_cvv" placeholder="123" maxlength="4">
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <!-- Card Input Mockup Block -->
-        <fieldset>
-          <legend>Card Payment Details:</legend>
+        <div style="background: rgba(255,255,255,0.4); padding: 18px; border-radius: 16px; margin-bottom: 24px; border: 1px solid var(--glass-border);">
+          <label style="display: flex; align-items: center; gap: 12px; cursor: pointer; font-weight: 600;">
+            <input type="radio" name="payment_method" value="snapscan" style="width: auto;">
+            <span>SnapScan / Apple Pay / Zapper</span>
+          </label>
+        </div>
 
-          <label for="card-num">Card Number:</label><br>
-          <input type="text" id="card-num" name="card_number" placeholder="4532 •••• •••• ••••"><br><br>
-
-          <label for="card-exp">Expiry Date:</label>
-          <input type="text" id="card-exp" name="card_expiry" placeholder="MM/YY">
-
-          <label for="card-cvv">CVV:</label>
-          <input type="password" id="card-cvv" name="card_cvv" placeholder="123" size="4"><br>
-        </fieldset>
-
-        <br>
-
-        <button type="submit">Pay R 2,220 Securely</button>
+        <button type="submit" style="width: 100%; padding: 16px; font-size: 1.1rem;">Complete Secure Payment</button>
       </form>
     </section>
 
-    <br>
-    <p><a href="cart.html">&laquo; Return to Delivery & Recipient Details</a></p>
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="cart.html" class="back-link">&laquo; Return to Recipient & Cart Details</a>
+    </div>
   </main>
 
   <footer>
-    <p>Security Guaranteed | PCI-DSS Compliant Payment Gateway</p>
+    <p>&copy; 2026 Always & Forever Blooms. PCI-DSS Level 1 Certified Secure Checkout.</p>
   </footer>
 
 </body>
-
 </html>
