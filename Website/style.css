@@ -207,6 +207,25 @@ section {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+#navbar li a#cart-nav-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  position: relative !important;
+  padding: 8px 14px !important;
+}
+
+#cart-badge {
+  background: #9E1B22 !important;
+  color: #ffffff !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  padding: 3px 6px !important;
+  border-radius: 99px !important;
+  box-shadow: 0 2px 6px rgba(158, 27, 34, 0.4) !important;
+}
+
 .auth-tab {
   background: rgba(255, 255, 255, 0.4) !important;
   color: var(--brand-dark) !important;
