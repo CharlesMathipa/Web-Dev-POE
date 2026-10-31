@@ -123,6 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     cartForm.addEventListener("submit", (e) => {
+      e.preventDefault(); // Stop default form POST behavior so we can handle routing via JS
+
       const recipientName = cartForm.querySelector("#recip-name")?.value || "";
       const recipientPhone = cartForm.querySelector("#recip-phone")?.value || "";
       const recipientAddress = cartForm.querySelector("#recip-address")?.value || "";
@@ -130,9 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const isAnonymous = cartForm.querySelector("input[name='anonymous_sender']")?.checked || false;
       const buyerEmail = cartForm.querySelector("#buyer-email")?.value || "";
 
+      // SA Mobile Phone validation
       const saPhoneRegex = /^(\+27|0)[6-8][0-9]{8}$/;
       if (!saPhoneRegex.test(recipientPhone)) {
-        e.preventDefault();
         alert("Please enter a valid South African mobile number (e.g. 0610667057).");
         return;
       }
@@ -146,7 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
         buyerEmail
       };
 
+      // Save to localStorage and redirect explicitly to checkout
       localStorage.setItem("afb_delivery_details", JSON.stringify(deliveryDetails));
+      window.location.href = "checkout.html";
     });
   }
 
