@@ -2,7 +2,7 @@ Always & Forever Blooms — Luxury Floral E-Commerce Website (WEDE5020 PoE)
 Student Name: Neo Charles Mathipa
 Student ID: ST10511987
 Module: WEDE5020 / Web Development (DISD1 Group 6)
-Institution: Rosebank International / Independent Institute of Education (IIE)GitHub Repository: https://github.com/CharlesMathipa
+Institution: Rosebank International / Independent Institute of Education (IIE)GitHub Repository: https://github.com/CharlesMathipa/Web-Dev-POE.git
 
 1. Project Intent & Business Objectives
 
