@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         newCard.innerHTML = `
           <div class="review-card-content">
-            <img src="${imageUrl}" alt="Customer Uploaded Photo" class="review-img">
+            <img src="${imageUrl}" alt="Customer Uploaded Photo" class="review-img" loading="lazy">
             <div class="review-details">
               <h3><span class="stars">${stars}</span> "${reviewText.substring(0, 30)}..."</h3>
               <p class="review-quote"><em>"${reviewText}"</em></p>
