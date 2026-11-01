@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /*
-     2. DYNAMIC SUBURB & DELIVERY TRAVEL RATE LOOKUP
+     2. DYNAMIC SUBURB & DELIVERY TRAVEL RATE LOOKUP WITH MAP EMBED
      */
-  const suburbForms = document.querySelectorAll("form[action='faq.html'], form[action='faq.html?']");
+ const suburbForms = document.querySelectorAll("form[action='faq.html'], form[action='faq.html?']");
   suburbForms.forEach(form => {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!input || !input.value.trim()) return;
 
       const query = input.value.trim().toLowerCase();
-      const metros = ["sandton", "pretoria", "centurion", "midrand", "johannesburg", "rosebank", "mamelodi", "hatfield"];
+      const metros = ["sandton", "pretoria", "centurion", "midrand", "johannesburg", "rosebank", "mamelodi", "hatfield", "menlo park"];
       const isMetro = metros.some(m => query.includes(m));
 
       let rate = isMetro ? 120.00 : 220.00;
@@ -102,11 +102,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isMetro) {
         resultBox.style.background = "rgba(94, 112, 96, 0.2)";
         resultBox.style.color = "#1f1f23";
-        resultBox.innerHTML = `<strong>✓ Metro Delivery Rate Confirmed:</strong> Rate for <em>"${input.value}"</em> is <strong>R 120.00</strong>.`;
+        resultBox.innerHTML = `<strong>✓ Metro Delivery Rate Confirmed:</strong> Same-day delivery fee for <em>"${input.value}"</em> is <strong>R 120.00</strong> (Primary Gauteng Hub).`;
       } else {
         resultBox.style.background = "rgba(158, 27, 34, 0.1)";
         resultBox.style.color = "#9E1B22";
-        resultBox.innerHTML = `<strong>ℹ Outlying Regional Rate:</strong> Special courier travel rate for <em>"${input.value}"</em> is <strong>R 220.00</strong>.`;
+        resultBox.innerHTML = `<strong>ℹ Outlying Regional Rate:</strong> Special regional courier travel rate for <em>"${input.value}"</em> is <strong>R 220.00</strong>.`;
+      }
+
+      const mapIframe = document.querySelector("#gauteng-delivery-map");
+      if (mapIframe) {
+        const encodedLocation = encodeURIComponent(input.value + ", Gauteng, South Africa");
+        mapIframe.src = `https://maps.google.com/maps?q=${encodedLocation}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
       }
     });
   });
@@ -402,7 +408,6 @@ document.addEventListener("DOMContentLoaded", () => {
         imageUrl = URL.createObjectURL(fileInput.files[0]); 
       }
 
-      // Format clean display text for stems (e.g. "40-stems" -> "40 Stems")
       const stemDisplayLabel = stemCategory.replace("-", " ").toUpperCase();
 
       const reviewContainer = document.querySelector("section.grid-2");

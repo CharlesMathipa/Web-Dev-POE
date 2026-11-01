@@ -37,17 +37,29 @@
 <main>
     <h1>Delivery Zones, Fee Rates & FAQ</h1>
 
-    <!-- Suburb Search  -->
-    <section>
+    <section class="glass-card">
       <h2>Suburb & Delivery Fee Lookup</h2>
-      <form action="faq.html" method="get">
-        <label for="faq-suburb">Type your target delivery suburb or postal code:</label><br>
-        <input type="text" id="faq-suburb" name="suburb_query" placeholder="e.g., Centurion / Sandton / 0157" required>
+      <form action="faq.html" method="get" class="suburb-search-form" style="margin-bottom: 20px;">
+        <label for="faq-suburb" style="font-weight: 600; flex: 1 1 100%;">Type your target delivery suburb or postal code:</label><br>
+        <input type="text" id="faq-suburb" name="suburb_query" placeholder="e.g., Sandton / Pretoria East / Centurion" required style="flex: 1;">
         <button type="submit">Search Fee Rate</button>
       </form>
-      <p><small>Standard Metro Same-Day Delivery Fee: <strong>R 120</strong></small></p>
-    </section>
+      <p><small>Standard Metro Same-Day Delivery Fee: <strong>R 120</strong> | Outlying Regional Rate: <strong>R 220</strong></small></p>
 
+      <div style="margin-top: 24px; border-radius: 18px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);">
+        <iframe 
+          id="gauteng-delivery-map"
+          title="Always and Forever Blooms Gauteng Delivery Zones Map"
+          width="100%" 
+          height="350" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14390.67245995441!2d28.047305!3d-26.107567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950c77b9495e81%3A0x5e35496de23dce9!2sSandton%2C%20Johannesburg!5e0!3m2!1sen!2sza!4v1710000000000!5m2!1sen!2sza">
+        </iframe>
+      </div>
+    </section>
 
     <!-- FAQ  -->
     <section>
